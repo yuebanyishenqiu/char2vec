@@ -1,5 +1,6 @@
 # TODO
 # prepare data for model training
+# Author: Wenjie Peng 201921198481
 from zhconv import convert
 from PIL import ImageFont
 import numpy as np
