@@ -27,7 +27,7 @@ import random
 
 
 #读取训练好的词向量文件
-fin = "./char2vec_raw.pickle"
+fin = "../data/char2vec_raw.pickle"
 fp = codecs.open(fin, "rb")
 dic = pickle.load(fp)
 # X 用于存放所有宋词的doc2vec 
@@ -78,7 +78,7 @@ plt.show()
 
 
 #读取训练好的词向量文件
-fin = "./char2vec_with_glyce.pickle"
+fin = "../data/char2vec_with_glyce.pickle"
 fp = codecs.open(fin, "rb")
 dic = pickle.load(fp)
 # X 用于存放所有宋词的doc2vec 

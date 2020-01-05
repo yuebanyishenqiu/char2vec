@@ -8,12 +8,12 @@ import json
 import codecs
 import numpy as np
 
-fin = "../md/v1/char2idx.json"
+fin = "../md/char2idx.json"
 fp = codecs.open(fin, "r", encoding = "utf8")
 dic = json.load(fp)
 fp.close()
 
-fmd = "../md/v1/char2vec.md"
+fmd = "../md/char2vec.md"
 
 batch_size = 64
 vocab_size = len(dic)
@@ -36,7 +36,7 @@ for ch in dic:
 
 import h5py
 
-fout = "./wvec.hf"
+fout = "../data/trn_wvec.hf"
 hdf = h5py.File(fout, "w")
 dst = hdf.create_dataset("data", data = vec, dtype = "float")
 hdf.close()

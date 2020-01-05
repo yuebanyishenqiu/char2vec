@@ -13,13 +13,6 @@ import pickle
 import h5py
 
 
-#default_font_size = 12
-#font_list = ["clerical_script/方正古隶繁体.ttf"]
-#src = "/disk2/pwj/workspace/data/chinese_scripts/"
-#font = ImageFont.truetype(os.path.join(src, font_list[0]), default_font_size)
-#
-#
-#print(font)
 
 def load_json(fin):
     fp =  codecs.open(fin, "r", encoding = "utf8") 
@@ -63,7 +56,6 @@ def tokenize_poem(src):
     # vocab includs three parts:
     # (1) ordinary chinese word
     # (2) ， 。 ？ markers
-    # (3) paragraphs initial and final: <p> </p>
     X = ""
     vocab = set()
     for f in os.listdir(src):
@@ -74,7 +66,6 @@ def tokenize_poem(src):
             X = "{} {}".format(X, t)
             vocab |= v
     
-    vocab |= set(["<p>", "</p>"])
     fout = "../data/dictionary.json"
     make_dictionary(vocab, fout)
     fout = "../data/train.txt"
@@ -113,7 +104,6 @@ def make_char_embedding(idx, font, use_traditional, idx2char):
         feat =  pad_mask(embed_char(char, font), font.size)
     
     vec = []
-    #TODO
     # make the feature distinct using binary numeric system
     base = np.arange(-6,7,1)
     base = np.exp2(base)
@@ -132,16 +122,17 @@ def normalize_data(dic, nomalizer):
         new_dic[k] = new_feat
     return new_dic
 
-def init_char_embedding(f):
+def init_char_embedding(f, fttf):
+
+    # generate char embedding from glyce
+    # store as ../data/wvec.hf
     
     dic = load_json(f)
     idx2char = dic["idx2char"]
     char2idx = dic["char2idx"]
     
-    font_file = "/disk2/pwj/workspace/data/chinese_scripts/regular_script/STXINGKA.TTF"
-    font = ImageFont.truetype(font_file, 12)
+    font = ImageFont.truetype(fttf, 12)
     emb  = vocab_embedding(idx2char, font, 24)
-    print(emb.shape)
 
     #fout = "../data/init_char_embedding.pickle"
     fdic = {}
@@ -149,7 +140,6 @@ def init_char_embedding(f):
     for idx in range(len(idx2char)):
         feat = make_char_embedding(idx, font, False, idx2char)
         X[idx,:] = feat
-    print(X.shape)
     X = preprocessing.Normalizer().fit_transform(X)
     fout = "../data/wvec.hf"
     hdf = h5py.File(fout, "w")
@@ -168,9 +158,9 @@ def init_char_embedding(f):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: {} ci_dir".format(sys.argv[0]))
+    if len(sys.argv) != 3:
+        print("Usage: {} ci_dir ttf".format(sys.argv[0]))
         exit(0)
 
     tokenize_poem(sys.argv[1])
-    init_char_embedding("../data/dictionary.json")
+    init_char_embedding("../data/dictionary.json", sys.argv[2])
