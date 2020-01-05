@@ -36,6 +36,7 @@ for ch in dic:
 
 import h5py
 
+# char2vec from training
 fout = "../data/trn_wvec.hf"
 hdf = h5py.File(fout, "w")
 dst = hdf.create_dataset("data", data = vec, dtype = "float")

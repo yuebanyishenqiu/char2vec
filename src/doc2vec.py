@@ -33,7 +33,7 @@ def load_data_all():
     init_ch2idx = fdic["char2idx"]
 
     # char2vec idx from training
-    ch2idx = load_json("../md/v1/char2idx.json")
+    ch2idx = load_json("../md/char2idx.json")
     return init_ch2idx, init_vec, ch2idx, train_vec
 
 
@@ -79,7 +79,6 @@ def add(dic, i, vec, pca, author, rhythmic, paras):
     vec = vec.T
     new_vec = pca.fit_transform(vec)
     new_vec = new_vec.reshape((new_vec.shape[0]))
-    print(new_vec.shape)
     dic[i] = {}
     dic[i]["author"] = author
     dic[i]["rhythmic"] = rhythmic

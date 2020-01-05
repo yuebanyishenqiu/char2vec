@@ -4,9 +4,9 @@ ttf_file=/path/to/chinese_scripts/regular_script/STXINGKA.TTF
 
 tstci=/path/to/ci/ci.song.10000.json
 
-songci=/disk2/pwj/workspace/data/ci
-ttf_file=/disk2/pwj/workspace/data/chinese_scripts/regular_script/STXINGKA.TTF
-tstci=/disk2/pwj/workspace/data/ci/ci.song.10000.json
+#songci=/disk2/pwj/workspace/data/ci
+#ttf_file=/disk2/pwj/workspace/data/chinese_scripts/regular_script/STXINGKA.TTF
+#tstci=/disk2/pwj/workspace/data/ci/ci.song.10000.json
 
 
 if [ ! -d $songci ]; then
@@ -23,12 +23,16 @@ mkdata=./data_helper.py
 mkvec=./gen_word_embedding.py
 doc2vec=./doc2vec.py
 
+mkdir -p ../data
+mkdir -p ../md
+
 echo "Stage: Data Preparation..."
+
 python $mkdata $songci $ttf_file || exit 1
     
 echo "Char2vec Model Training..."
 
-#python main.py || exit 1;
+python main.py || exit 1;
 python $mkvec || exit 1;
 
 echo "Make Char2vec for Cluster..."
