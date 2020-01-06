@@ -9,15 +9,15 @@ tstci=/path/to/ci/ci.song.10000.json
 #tstci=/disk2/pwj/workspace/data/ci/ci.song.10000.json
 
 
-#if [ ! -d $songci ]; then
-#    echo "Song Ci data not found!"
-#    exit 0
-#fi
-#
-#if [ ! -f $ttf_file ]; then
-#    echo "TTF file not found!"
-#    exit 0
-#fi
+if [ ! -d $songci ]; then
+    echo "Song Ci data not found!"
+    exit 0
+fi
+
+if [ ! -f $ttf_file ]; then
+    echo "TTF file not found!"
+    exit 0
+fi
 
 mkdata=./data_helper.py
 mkvec=./gen_word_embedding.py
@@ -27,18 +27,18 @@ mkdir -p ../data
 mkdir -p ../md
 
 echo "Stage: Data Preparation... (Author: Peng Wenjie)"
-#
-#python $mkdata $songci $ttf_file || exit 1
-#    
-#echo "Char2vec Model Training... (Author: Peng Wenjie)"
-#
-#python main.py || exit 1;
-#python $mkvec || exit 1;
-#
-#echo "Make Char2vec for Cluster... (Author: Peng Wenjie)"
-#
-#python $doc2vec $tstci || exit 1;
-#
+
+python $mkdata $songci $ttf_file || exit 1
+    
+echo "Char2vec Model Training... (Author: Peng Wenjie)"
+
+python main.py || exit 1;
+python $mkvec || exit 1;
+
+echo "Make Char2vec for Cluster... (Author: Peng Wenjie)"
+
+python $doc2vec $tstci || exit 1;
+
 echo "K-Means cluster... (Author: Li Zhu)"
 vec1=../data/char2vec_raw.pickle
 vec2=../data/char2vec_with_glyce.pickle
