@@ -32,7 +32,7 @@ def kmeans_poem(FilePath):
             index = j
         # print("n_cluster ", j, "calinski_harabasz_score :",error)
     n_clusters = index
-    print(n_clusters)
+    print("optimal K: {}".format(n_clusters))
     # print("optimal K：",index)
     # print("calinski_harabasz_score:", max )
     y_pred = KMeans(n_clusters, random_state=4).fit_predict(X)
